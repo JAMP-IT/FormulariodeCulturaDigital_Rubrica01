@@ -421,8 +421,8 @@
     <div class="question-card" style="border: none; background: transparent; box-shadow: none; padding: 0;">
       <button type="submit" class="submit-btn">Enviar y Descargar Excel</button>
       <div class="info-box">
-        <strong>📊 Descarga y Recarga Automática:</strong><br>
-        Al hacer clic en <strong>"Enviar y Descargar Excel"</strong>, se guardará automáticamente el archivo de Excel (<code>.xlsx</code>) con la calificación calculada en tus descargas y la página se refrescará para capturar a un nuevo estudiante.
+        <strong>📊 Descarga y Limpieza Automática:</strong><br>
+        Al presionar <strong>"Enviar y Descargar Excel"</strong>, se generará el archivo <code>.xlsx</code> en tu carpeta de descargas y los campos se limpiarán automáticamente para evaluar al siguiente alumno.
       </div>
     </div>
 
@@ -432,6 +432,7 @@
     document.getElementById('rubricaForm').addEventListener('submit', function(e) {
       e.preventDefault();
 
+      const form = this;
       const nombre = document.getElementById('nombreEstudiante').value;
       const grado = document.getElementById('gradoEstudiante').value;
       const grupo = document.getElementById('grupoEstudiante').value;
@@ -479,16 +480,15 @@
 
       XLSX.utils.book_append_sheet(wb, ws, "Calificación");
 
-      // Descargar el archivo Excel con el nombre del estudiante
+      // Descargar archivo Excel
       const nombreArchivo = `Evaluacion_PowerShell_${nombre.replace(/\s+/g, '_')}.xlsx`;
       XLSX.writeFile(wb, nombreArchivo);
 
-      alert(`✅ ¡Evaluación guardada con éxito!\n\nSe ha descargado el archivo: ${nombreArchivo}\n\nEl formulario se reiniciará para la siguiente captura.`);
+      alert(`✅ ¡Evaluación guardada con éxito!\n\nSe ha descargado el archivo: ${nombreArchivo}\n\nEl formulario se limpiará para la siguiente captura.`);
 
-      // Refrescar la página para la siguiente captura
-      setTimeout(() => {
-        window.location.reload();
-      }, 300);
+      // Reiniciar formulario limpiando campos sin refrescar toda la página de GitHub Pages
+      form.reset();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   </script>
 

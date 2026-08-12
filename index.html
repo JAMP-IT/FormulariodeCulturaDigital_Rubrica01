@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Rúbrica de Evaluación - Google Forms Style</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-  <!-- SheetJS para la exportación directa a Excel -->
+  <!-- SheetJS CDN para exportar Excel -->
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <style>
     * {
@@ -187,7 +187,7 @@
       <input type="text" id="grupoEstudiante" class="text-input" placeholder="Ej. A, B, 101..." required>
     </div>
 
-    <!-- Criterios 1 al 10 -->
+    <!-- Criterio 1 -->
     <div class="question-card">
       <div class="question-title">1. Estructura y Nombramiento del Archivo (.ps1) <span class="required-star">*</span></div>
       <div class="option-group">
@@ -210,6 +210,7 @@
       </div>
     </div>
 
+    <!-- Criterio 2 -->
     <div class="question-card">
       <div class="question-title">2. Sintaxis e Impresión "Hola Mundo" <span class="required-star">*</span></div>
       <div class="option-group">
@@ -232,6 +233,7 @@
       </div>
     </div>
 
+    <!-- Criterio 3 -->
     <div class="question-card">
       <div class="question-title">3. Declaración y Uso de Variables ($) <span class="required-star">*</span></div>
       <div class="option-group">
@@ -254,6 +256,7 @@
       </div>
     </div>
 
+    <!-- Criterio 4 -->
     <div class="question-card">
       <div class="question-title">4. Lógica y Operación de Suma <span class="required-star">*</span></div>
       <div class="option-group">
@@ -276,6 +279,7 @@
       </div>
     </div>
 
+    <!-- Criterio 5 -->
     <div class="question-card">
       <div class="question-title">5. Desplegado y Formato de Resultados <span class="required-star">*</span></div>
       <div class="option-group">
@@ -298,6 +302,7 @@
       </div>
     </div>
 
+    <!-- Criterio 6 -->
     <div class="question-card">
       <div class="question-title">6. Ejecución Efectiva en Línea de Comandos <span class="required-star">*</span></div>
       <div class="option-group">
@@ -320,6 +325,7 @@
       </div>
     </div>
 
+    <!-- Criterio 7 -->
     <div class="question-card">
       <div class="question-title">7. Resolución de Problemas y Manejo de Errores <span class="required-star">*</span></div>
       <div class="option-group">
@@ -342,6 +348,7 @@
       </div>
     </div>
 
+    <!-- Criterio 8 -->
     <div class="question-card">
       <div class="question-title">8. Autodirección y Autonomía (Cognia) <span class="required-star">*</span></div>
       <div class="option-group">
@@ -364,6 +371,7 @@
       </div>
     </div>
 
+    <!-- Criterio 9 -->
     <div class="question-card">
       <div class="question-title">9. Reflexión Metacognitiva y Autoevaluación (Cognia) <span class="required-star">*</span></div>
       <div class="option-group">
@@ -386,6 +394,7 @@
       </div>
     </div>
 
+    <!-- Criterio 10 -->
     <div class="question-card">
       <div class="question-title">10. Formato, Presentación y Entrega Oportuna <span class="required-star">*</span></div>
       <div class="option-group">
@@ -410,10 +419,10 @@
 
     <!-- Botón de Envío e Información -->
     <div class="question-card" style="border: none; background: transparent; box-shadow: none; padding: 0;">
-      <button type="submit" class="submit-btn">Enviar y Generar Excel</button>
+      <button type="submit" class="submit-btn">Enviar y Descargar Excel</button>
       <div class="info-box">
-        <strong>📧 Registro y Envió:</strong><br>
-        Al presionar <strong>"Enviar"</strong>, se descargará automáticamente el reporte en Excel (<code>.xlsx</code>) con el cálculo final y se abrirá el gestor de correo listo para enviar la evaluación a <strong>josealfredomp1@outlook.com</strong>.
+        <strong>📊 Descarga y Recarga Automática:</strong><br>
+        Al hacer clic en <strong>"Enviar y Descargar Excel"</strong>, se guardará automáticamente el archivo de Excel (<code>.xlsx</code>) con la calificación calculada en tus descargas y la página se refrescará para capturar a un nuevo estudiante.
       </div>
     </div>
 
@@ -446,7 +455,7 @@
       const porcentaje = ((totalPuntos / 50) * 100).toFixed(1) + '%';
       const fecha = new Date().toLocaleString();
 
-      // Generar Excel con SheetJS
+      // Generar hoja de cálculo Excel con SheetJS
       const wb = XLSX.utils.book_new();
       
       const dataExcel = [
@@ -470,28 +479,16 @@
 
       XLSX.utils.book_append_sheet(wb, ws, "Calificación");
 
+      // Descargar el archivo Excel con el nombre del estudiante
       const nombreArchivo = `Evaluacion_PowerShell_${nombre.replace(/\s+/g, '_')}.xlsx`;
       XLSX.writeFile(wb, nombreArchivo);
 
-      // Enlace Mailto a josealfredomp1@outlook.com
-      const emailDestino = "josealfredomp1@outlook.com";
-      const asunto = encodeURIComponent(`Evaluación PowerShell - ${nombre} (${grado} ${grupo}) - Nota: ${totalPuntos}/50 (${porcentaje})`);
-      const cuerpo = encodeURIComponent(
-        `Hola,\n\nSe ha completado la evaluación de la actividad "Primeros Códigos en PowerShell".\n\n` +
-        `Estudiante: ${nombre}\n` +
-        `Grado: ${grado}\n` +
-        `Grupo: ${grupo}\n` +
-        `Fecha: ${fecha}\n\n` +
-        `RESULTADOS:\n` +
-        `Puntaje Obtenido: ${totalPuntos} / 50 Puntos\n` +
-        `Calificación: ${porcentaje}\n\n` +
-        `Se ha descargado el archivo Excel "${nombreArchivo}" en tu equipo. Adjúntalo a este correo para guardar el registro oficial.\n\n` +
-        `Saludos.`
-      );
+      alert(`✅ ¡Evaluación guardada con éxito!\n\nSe ha descargado el archivo: ${nombreArchivo}\n\nEl formulario se reiniciará para la siguiente captura.`);
 
-      window.location.href = `mailto:${emailDestino}?subject=${asunto}&body=${cuerpo}`;
-
-      alert(`✅ ¡Evaluación procesada con éxito!\n\n1. Se ha descargado el archivo Excel: ${nombreArchivo}\n2. Se abrió tu correo para enviar el reporte a josealfredomp1@outlook.com`);
+      // Refrescar la página para la siguiente captura
+      setTimeout(() => {
+        window.location.reload();
+      }, 300);
     });
   </script>
 
